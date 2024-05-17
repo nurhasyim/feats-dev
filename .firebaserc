@@ -1,0 +1,9 @@
+{
+  "projects": {
+    "default": "feats-dev",
+    "feats-dev": "feats-dev"
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
+}
