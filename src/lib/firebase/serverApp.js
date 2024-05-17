@@ -15,15 +15,10 @@ export async function getAuthenticatedAppForUser() {
   // const idToken = cookies().get("__session").value;
   console.log(`id token: ${idToken}`);
   const firebaseServerApp = initializeServerApp(
-    firebaseConfig,
-    idToken
-      ? {
-          authIdToken: idToken,
-        }
-      : {}
+    firebaseConfig, { idToken }
   );
 
-  console.log('firebaseServerApp', JSON.stringify(firebaseServerApp));
+  console.log('firebaseServerApp', firebaseServerApp);
 
   const auth = getAuth(firebaseServerApp);
   await auth.authStateReady();
