@@ -7,7 +7,7 @@
       "port": 5001
     },
     "firestore": {
-      "port": 8080
+      "port": 9080
     },
     "database": {
       "port": 9000
@@ -18,7 +18,7 @@
     "ui": {
       "enabled": true
     },
-    "singleProjectMode": true,
+    "singleProjectMode": false,
     "hosting": {
       "port": 5000
     }

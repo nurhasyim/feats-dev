@@ -18,7 +18,7 @@ export async function getAuthenticatedAppForUser() {
     firebaseConfig, { idToken }
   );
 
-  console.log('firebaseServerApp', firebaseServerApp);
+  // console.log('firebaseServerApp', firebaseServerApp);
 
   const auth = getAuth(firebaseServerApp);
   await auth.authStateReady();

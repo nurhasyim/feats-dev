@@ -63,13 +63,14 @@ export async function addReviewToRestaurant(db, restaurantId, review) {
 	}
 
 	try {
-		const docRef = doc(db, collection(db, "restaurants"), restaurantId);
+		const docRef = doc(collection(db, "restaurants"), restaurantId);
 		const newRatingDocument = doc(
 			collection(db, `restaurants/${restaurantId}/ratings`)
 		);
 
 		await runTransaction(db, transaction => {
-			updateWithRating(transaction, docRef, newRatingDocument, review);
+			updateWithRating(transaction, docRef, newRatingDocument, review)
+			return Promise.resolve();
 		});
 
 	} catch (error) {
@@ -141,6 +142,8 @@ export async function getRestaurantById(db, restaurantId) {
 	}
 	const docRef = doc(db, "restaurants", restaurantId);
 	const docSnap = await getDoc(docRef);
+	console.log("docSnap.data(): ");
+	console.log(JSON.stringify(docSnap.data()));
 	return {
 		...docSnap.data(),
 		timestamp: docSnap.data().timestamp.toDate(),
