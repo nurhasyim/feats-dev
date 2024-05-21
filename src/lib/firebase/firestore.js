@@ -36,19 +36,21 @@ const updateWithRating = async (
 ) => {
 	const restaurant = await transaction.get(docRef);
 	const data = restaurant.data();
-	const newNumberRatings = data?.numberRatings ? data.numRatings + 1 : 1;
+	console.log("data: ", data);
+
+	const newNumRatings = data?.numRatings ? data.numRatings + 1 : 1;
 	const newSumRatings = (data?.sumRatings || 0) + Number(review.rating);
-	const newAvgRating = newSumRatings / newNumberRatings;
+	const newAvgRating = newSumRatings / newNumRatings;
 
 	transaction.update(docRef, {
-		numRatings: newNumberRatings,
+		numRatings: newNumRatings,
 		sumRatings: newSumRatings,
 		avgRating: newAvgRating,
 	});
 
 	transaction.set(newRatingDocument, {
 		...review,
-		timestamp: Timestamp.now(),
+		timestamp: Timestamp.fromDate(new Date()),
 	});
 
 };
@@ -68,9 +70,11 @@ export async function addReviewToRestaurant(db, restaurantId, review) {
 			collection(db, `restaurants/${restaurantId}/ratings`)
 		);
 
+		console.log("docRef id: ", docRef.id);
+		console.log("newRatingDocument id: ", newRatingDocument.id);
+
 		await runTransaction(db, transaction => {
-			updateWithRating(transaction, docRef, newRatingDocument, review)
-			return Promise.resolve();
+			return updateWithRating(transaction, docRef, newRatingDocument, review)
 		});
 
 	} catch (error) {
