@@ -9,19 +9,26 @@ import { firebaseConfig } from "./config";
 import { getAuth } from "firebase/auth";
 
 export async function getAuthenticatedAppForUser() {
-  const idToken = headers().get("Authorization")?.split("Bearer ")[1];
   // console.log('firebaseConfig', JSON.stringify(firebaseConfig));
   // console.log('headers', JSON.stringify(headers()));
+  const idToken = headers().get("Authorization")?.split("Bearer ")[1];
   // const idToken = cookies().get("__session").value;
-  console.log(`id token: ${idToken}`);
+
+  console.log(`id token exist : ${idToken !== undefined}`);
   const firebaseServerApp = initializeServerApp(
-    firebaseConfig, { idToken }
+    firebaseConfig,
+    idToken
+      ? {
+          authIdToken: idToken,
+        }
+      : {}
   );
 
   // console.log('firebaseServerApp', firebaseServerApp);
 
   const auth = getAuth(firebaseServerApp);
   await auth.authStateReady();
+  console.log('auth.currentUser exist : ', auth.currentUser !== null);
 
   return { firebaseServerApp, currentUser: auth.currentUser };
 }

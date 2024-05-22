@@ -14,7 +14,7 @@ export async function handleReviewFormSubmission(data) {
     console.log("data.restaurantId", data.get("restaurantId"));
     await addReviewToRestaurant(db, data.get("restaurantId"), {
         text: data.get("text"),
-        rating: data.get("rating"),
+        rating: Number(data.get("rating")),
         userId: data.get("userId"),
     });
 }

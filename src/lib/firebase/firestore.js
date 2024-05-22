@@ -64,7 +64,10 @@ export async function addReviewToRestaurant(db, restaurantId, review) {
 		throw new Error("A valid review has not been provided");
 	}
 
-	try {
+	console.log("Adding review to restaurant: ", restaurantId);
+	// console.log("Review: ", review);	
+
+	// try {
 		const docRef = doc(collection(db, "restaurants"), restaurantId);
 		const newRatingDocument = doc(
 			collection(db, `restaurants/${restaurantId}/ratings`)
@@ -77,10 +80,10 @@ export async function addReviewToRestaurant(db, restaurantId, review) {
 			return updateWithRating(transaction, docRef, newRatingDocument, review)
 		});
 
-	} catch (error) {
-		console.error("Error adding review to restaurant: ", error);
-		throw error;
-	}
+	// } catch (error) {
+	// 	console.error("Error adding review to restaurant: ", error);
+	// 	throw error;
+	// }
 }
 
 function applyQueryFilters(q, { category, city, price, sort }) {
@@ -146,8 +149,8 @@ export async function getRestaurantById(db, restaurantId) {
 	}
 	const docRef = doc(db, "restaurants", restaurantId);
 	const docSnap = await getDoc(docRef);
-	console.log("docSnap.data(): ");
-	console.log(JSON.stringify(docSnap.data()));
+	// console.log("docSnap.data: ");
+	// console.log(docSnap.data());
 	return {
 		...docSnap.data(),
 		timestamp: docSnap.data().timestamp.toDate(),
